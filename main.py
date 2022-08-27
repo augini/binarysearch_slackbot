@@ -47,10 +47,10 @@ def get_user_data():
         json_format = r.json()
 
         stat_data = json_format["user"]["stat"]
-
+        solved_today = json_format["user"]["solvedToday"]
         data = {
             "Member": USERS[user],
-            "Today": stat_data["numTotalSolvedToday"],
+            "Today": solved_today,
             "Easy": stat_data["numEasySolvedToday"],
             "Medium": stat_data["numMediumSolvedToday"],
             "Hard": stat_data["numHardSolvedToday"],
