@@ -1,6 +1,6 @@
 # SlackBot For YBKZ members
 
-### This slackbot source code that keeps YBKY members updated about their daily progress on [this problem solving platform](https://binarysearch.com)
+## This slackbot source code that keeps YBKY members updated about their daily progress on [this problem solving platform](https://binarysearch.com)
 
 ### How to set up
 
