@@ -1,6 +1,6 @@
 from slack import WebClient
 import requests
-
+import json
 from markdownTable import markdownTable
 from random import randint
 from datetime import date
@@ -54,14 +54,15 @@ def get_user_data():
         experience_gained_today = [
             x for x in experience_list if x["date"] == date.today()
         ]
+        if len(experience_gained_today) > 0:
+            exp_gained_today = experience_gained_today[0]["gain"]
+        else:
+            exp_gained_today = "No gain today"
 
         data = {
             "Member": USERS[user],
             "Today": solved_today,
-            # "Easy": stat_data["numEasySolvedToday"],
-            # "Medium": stat_data["numMediumSolvedToday"],
-            # "Hard": stat_data["numHardSolvedToday"],
-            "Exp Gained Today": experience_gained_today["gain"],
+            "Exp Gained Today": exp_gained_today,
             "Overall Solved": stat_data["numTotalSolved"],
             "Streak": stat_data["streak"],
             "X": "",
@@ -96,9 +97,18 @@ def send_update_on_slack():
 
     data = get_user_data()
 
+    f = open("quotes.json")
+    quotes = json.load(f)
+    quote_of_today = quotes[randint(1, 10)]
+
     client.chat_postMessage(
         channel=CHANNEL_NAME,
-        text=f"BinarySearch Status on {date.today()}. Let's keep coding!",
+        text=f"Quote of the day: \n \n{quote_of_today['quote']} ~ {quote_of_today['author']}",
+    )
+
+    client.chat_postMessage(
+        channel=CHANNEL_NAME,
+        text=f"Status update on {date.today()}.",
     )
 
     client.chat_postMessage(
