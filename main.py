@@ -1,3 +1,4 @@
+from time import clock_getres
 from slack import WebClient
 import requests
 import json
@@ -5,7 +6,7 @@ from markdownTable import markdownTable
 from random import randint
 from datetime import date
 from dotenv import load_dotenv
-from os import getenv
+from os import getenv, path, getcwd
 
 load_dotenv()
 
@@ -52,8 +53,9 @@ def get_user_data():
         experience_list = json_format["profile"]["experience"]
 
         experience_gained_today = [
-            x for x in experience_list if x["date"] == date.today()
+            x for x in experience_list if x["date"] == date.today().strftime("%Y-%m-%d")
         ]
+
         if len(experience_gained_today) > 0:
             exp_gained_today = experience_gained_today[0]["gain"]
         else:
@@ -97,7 +99,9 @@ def send_update_on_slack():
 
     data = get_user_data()
 
-    f = open("quotes.json")
+    __location__ = path.realpath(path.join(getcwd(), path.dirname(__file__)))
+
+    f = open(path.join(__location__, "quotes.json"))
     quotes = json.load(f)
     quote_of_today = quotes[randint(1, 10)]
 
