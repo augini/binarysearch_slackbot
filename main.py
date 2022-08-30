@@ -48,12 +48,20 @@ def get_user_data():
 
         stat_data = json_format["user"]["stat"]
         solved_today = json_format["user"]["solvedToday"]
+
+        experience_list = json_format["profile"]["experience"]
+
+        experience_gained_today = [
+            x for x in experience_list if x["date"] == date.today()
+        ]
+
         data = {
             "Member": USERS[user],
             "Today": solved_today,
-            "Easy": stat_data["numEasySolvedToday"],
-            "Medium": stat_data["numMediumSolvedToday"],
-            "Hard": stat_data["numHardSolvedToday"],
+            # "Easy": stat_data["numEasySolvedToday"],
+            # "Medium": stat_data["numMediumSolvedToday"],
+            # "Hard": stat_data["numHardSolvedToday"],
+            "Exp Gained Today": experience_gained_today["gain"],
             "Overall Solved": stat_data["numTotalSolved"],
             "Streak": stat_data["streak"],
             "X": "",
